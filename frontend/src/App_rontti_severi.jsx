@@ -2,7 +2,11 @@ import { useState } from 'react'
 
 const App = () => {
   const [persons, setPersons] = useState([
-    { name: 'Arvo Allas' }
+    //{ name: 'Arvo Allas' },
+    { id: 1, name: 'Jouni Dolonen', number: '040-1234567' },
+    { id: 2, name: 'Jaana Dolonen', number: '040-2345678' },
+    { id: 3, name: 'Jaakko Seppä', number: '050-3456789' },
+    { id: 4, name: 'Jaani Jansson', number: '050-4567890' }
   ])
 
   // Tila newName on tarkoitettu lomakkeen kentän kontrollointiin
@@ -10,6 +14,12 @@ const App = () => {
 
   // Tila newNumber on tarkoitettu lomakkeen puhelinnumeron kentän kontrollointiin
   const [newNumber, setNewNumber] = useState('')
+
+  //
+  const [filter, setFilter] = useState('');
+
+  const personsToShow = persons.filter(person => person.name.toLowerCase().includes(filter.toLowerCase()));
+  //
 
   // Käsittele henkilön lisäyslomakkeen lähetys
   const addPerson = (event) => {
@@ -25,10 +35,6 @@ const App = () => {
       alert('numerokenttä ei voi olla tyhjä')
       return
     }
-
-
-
-
     if (persons.some(person => person.name === newName)) {
       alert(`${newName} on jo lisätty puhelinluetteloon`)
       return
@@ -57,8 +63,9 @@ const App = () => {
 
   return (
     
-    <div className="form-container">
+  <div className="form-container">
   <h2>Puhelinluettelo</h2>
+  haku puhelinluettelosta <input value={filter} onChange={(event) => setFilter(event.target.value)} />
   <form onSubmit={addPerson}>
     <div className="form-field">
       <label htmlFor="name">nimi:</label>
@@ -70,12 +77,12 @@ const App = () => {
     </div>
     <div className="form-button">
       <button type="submit">Lisää</button>
-    </div>
+  </div>
   </form>
 
   <h2>Numerot</h2>
   <ul>
-    {persons.map((person, index) => (
+    {personsToShow.map((person, index) => (
       <li key={index}>
         {person.name} {person.number}
       </li>
@@ -87,4 +94,4 @@ const App = () => {
   )
 }
 
-export default App
+export default App;
