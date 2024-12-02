@@ -65,15 +65,15 @@ const App = () => {
     
   <div className="form-container">
   <h2>Puhelinluettelo</h2>
-  haku puhelinluettelosta <input value={filter} onChange={(event) => setFilter(event.target.value)} />
+  haku puhelinluettelosta <input value={filter} placeholder='Haku puhelinluettelosta' onChange={(event) => setFilter(event.target.value)} />
   <form onSubmit={addPerson}>
     <div className="form-field">
       <label htmlFor="name">nimi:</label>
-      <input id="name" type="text" value={newName} onChange={handleNameChange} />
+      <input id="name" type="text" value={newName} placeholder='Syötä nimi' onChange={handleNameChange} />
     </div>
     <div className="form-field">
       <label htmlFor="number">numero:</label>
-      <input id="number" type="text" value={newNumber} onChange={handleNumberChange} />
+      <input id="number" type="text" value={newNumber} placeholder='Syötä numero' onChange={handleNumberChange} />
     </div>
     <div className="form-button">
       <button type="submit">Lisää</button>
