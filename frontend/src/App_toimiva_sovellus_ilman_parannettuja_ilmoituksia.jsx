@@ -6,28 +6,7 @@ import PersonForm from './components/PersonForm';
 
 import Persons from './components/Persons';
 
-const Notification = ({ message, type }) => {
-  // jos message - arvo on tyhjä tai määrittelemätön, komponentti ei renderöi mitään ja palauttaa null.
-  if (!message) return null;
-  
-  // Lisätään sitten viesteille sopivat tyylit:
-  const style = {
-  color: type === 'success' ? 'green' :
-  type === 'error' ? 'red' :
-  type === 'info' ? 'blue' : 'black',
-  backgroundColor: '#cccccc',
-  border: `2px solid ${type === 'success' ? 'green' :
-  type === 'error' ? 'red' : 'blue'}`,
-  padding: '10px',
-  marginBottom: '20px',
-  borderRadius: '5px',
-  boxShadow: '0 4px 6px rgba(0, 0, 0, 0.1)',
-  textAlign: 'center',
-  fontWeight: 'bold',
-  };
-  // ilmoitus näytetään <div>-elementissä, joka tyyli on määritelty alla olevalla style-objektilla. message-props toimii ilmoituksen sisältönä
-  return <div style={style}>{message}</div>;
-};
+
 
 const App = () => {
 
@@ -55,20 +34,7 @@ const App = () => {
 
   const [filter, setFilter] = useState('');
 
-  const [notificationMessage, setNotificationMessage] = useState('');
-
-  const [notificationType, setNotificationType] = useState('');
-
-  const showNotification = (message, type) => {
-    setNotificationMessage(message); // Asetetaan ilmoituksen viesti (message) Reactin tilaan
-    setNotificationType(type);       // Asetetaan ilmoituksen tyyppi (type), joka määrittää sen ulkoasun
-    // Käytetään ajastinta (setTimeout) piilottamaan ilmoitus 3 sekunnin kuluttua
-      setTimeout(() => {
-      setNotificationMessage(null);    // Tyhjennetään ilmoituksen viesti
-      setNotificationType(null);       // Tyhjennetään ilmoituksen tyyppi
-      // Ajastimen kesto on 3 000 millisekuntia (3 sekuntia)
-      }, 3000);
-  };
+  
 
   // Lisää uuden henkilön
 
@@ -159,10 +125,8 @@ if (!newNumber) {
  
 
   const handleDelete = (id) => {
-    if (window.confirm("Haluatko varmasti poistaa yhteystiedon?")) {
-      setPersons(persons.filter(person => person.id !== id));
-      showNotification(`${newName} poistettu onnistuneesti!`, 'error');
-    }
+
+    setPersons(persons.filter(person => person.id !== id));
 
 };
 
@@ -176,25 +140,7 @@ if (!newNumber) {
 
   );
 
-  const existingPerson = persons.find(person => person.name.toLowerCase() === newName.toLowerCase());
-
-    if (existingPerson) {
-      if (window.confirm(`${existingPerson.name} on jo luettelossa, haluatko päivittää numeron?`)) {
-        const updatedPerson = { ...existingPerson, number: newNumber };
-        setPersons(persons.map(person =>
-          person.id === existingPerson.id ? updatedPerson : person
-        ));
-        showNotification(`${existingPerson.name} numero päivitetty!`, 'info');
-      }
-    } else {
-      const newPerson = { id: Math.max(...persons.map(person => person.id)) + 1, name: newName, number: newNumber };
-      setPersons(persons.concat(newPerson));
-      showNotification(`${newName} lisätty onnistuneesti!`, 'success');
-    }
-
-    setNewName('');
-    setNewNumber('');
-  };
+ 
 
   return (  
 

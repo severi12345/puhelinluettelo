@@ -1,0 +1,77 @@
+//import { useState } from 'react'
+import DataFetch from './components/DataFetchingComponent';
+import NameList from './components/NameList';
+import NameForm from './components/NameForm';
+import StyledComp from './components/StyledComponent';
+
+const Notification = ({ message, type }) => {
+  // jos message - arvo on tyhjä tai määrittelemätön, komponentti ei renderöi mitään ja palauttaa null.
+  if (!message) return null;
+  
+  // Lisätään sitten viesteille sopivat tyylit:
+    const style = {
+      color: type === 'success' ? 'green' :
+             type === 'error' ? 'red' :
+             type === 'info' ? 'blue' : 'black',
+      backgroundColor: '#cccccc',
+      border: `2px solid ${type === 'success' ? 'green' :
+                           type === 'error' ? 'red' : 'blue'}`,
+      padding: '10px',
+      marginBottom: '20px',
+      borderRadius: '5px',
+      boxShadow: '0 4px 6px rgba(0, 0, 0, 0.1)',
+      textAlign: 'center',
+      fontWeight: 'bold',
+    };
+  // ilmoitus näytetään <div>-elementissä, joka tyyli on määritelty alla olevalla style-objektilla. message-props toimii ilmoituksen sisältönä
+   return <div style={style}>{message}</div>;
+  };
+
+  const App = () => {
+    const [notification, setNotification] = useState({ message: '', type: '' });
+  
+    // Funktio, joka hallitsee ilmoituksen näyttämistä ja piilottamista
+    const showNotification = (message, type) => {
+      setNotification({ message, type });
+  
+      // Tyhjennetään ilmoitus 3 sekunnin kuluttua
+      setTimeout(() => {
+        setNotification({ message: '', type: '' });
+      }, 3000);
+    };
+  
+    // Esimerkkitoiminnot, jotka käyttävät ilmoituksia
+    const handleAddPerson = (newName) => {
+      showNotification(`${newName} lisätty onnistuneesti!`, 'success');
+    };
+  
+    const handleUpdatePerson = (existingPerson) => {
+      showNotification(`${existingPerson.name} numero päivitetty!`, 'info');
+    };
+  
+    const handleRemovePerson = (person) => {
+      showNotification(`${person.name} poistettu onnistuneesti!`, 'error');
+    };
+  
+    return (
+      <div>
+        <h2>React-esimerkki</h2>
+        {/* Ilmoitusten näyttäminen */}
+        <Notification message={notification.message} type={notification.type} />
+        <NameForm />
+        <hr />
+        <NameList />
+        <hr />
+        <DataFetch />
+        <hr />
+        <StyledComp />
+  
+        {/* Käyttöesimerkit */}
+        <button onClick={() => handleAddPerson('Matti Meikäläinen')}>Lisää henkilö</button>
+        <button onClick={() => handleUpdatePerson({ name: 'Matti Meikäläinen' })}>Päivitä numero</button>
+        <button onClick={() => handleRemovePerson({ name: 'Matti Meikäläinen' })}>Poista henkilö</button>
+      </div>
+    );
+  };
+  
+  export default App;
